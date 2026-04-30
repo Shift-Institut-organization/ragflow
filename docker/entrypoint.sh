@@ -273,6 +273,7 @@ if [[ "${ENABLE_WEBSERVER}" -eq 1 ]]; then
     while true; do
         echo "Attempt to start RAGFlow server..."
         "$PY" api/ragflow_server.py ${INIT_SUPERUSER_ARGS}
+        # PYDEVD_DISABLE_FILE_VALIDATION=1 "$PY" -X frozen_modules=off api/ragflow_server.py
         echo "RAGFlow python server started."
         sleep 1;
     done &
