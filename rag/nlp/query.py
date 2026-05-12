@@ -190,7 +190,7 @@ class FulltextQueryer(QueryBase):
         return np.array(sims[0]) * vtweight + np.array(tksim) * tkweight, tksim, sims[0]
 
     def token_similarity(self, atks, btkss):
-        def to_dict(tks):
+        def to_weighted_dict(tks):
             if isinstance(tks, str):
                 tks = tks.split()
             d = defaultdict(int)
@@ -201,8 +201,15 @@ class FulltextQueryer(QueryBase):
                     _t, _c = wts[i+1]
                     d[t+_t] += max(c, _c) * 0.6
             return d
+        
+        def to_dict(tks):
+            if isinstance(tks, str):
+                tks = tks.split()
+            if isinstance(tks, list):
+                return {index: 0 for index in tks}
+            return to_weighted_dict(tks)
 
-        atks = to_dict(atks)
+        atks = to_weighted_dict(atks)
         btkss = [to_dict(tks) for tks in btkss]
         return [self.similarity(atks, btks) for btks in btkss]
 

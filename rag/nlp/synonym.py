@@ -101,6 +101,14 @@ class Dealer:
             wn_res = [t for t in wn_set if t]
             return wn_res[:topn]
 
+        wn_set = set()
+        for syn in wordnet.synsets(tk):
+            for lemma in syn.lemmas(): # Look at every word in the group
+                name = lemma.name().replace("_", " ")
+                wn_set.add(name)
+
+            wn_set.discard(tk)  # Remove the original token itself TODO: improve synonym search by taking all lemma synonym words. Test more
+
         # 3) Nothing found in either source
         return []
     
