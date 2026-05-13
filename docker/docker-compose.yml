@@ -37,6 +37,9 @@ services:
       - ${GO_HTTP_PORT}:9384
       - ${GO_ADMIN_PORT}:9383
       - "5678:5678" # Must be present
+      - "5173:5173"  # Standard Vite port
+      # - "9380:9380"   # Backend API
+      - "9222:9222"   # Vite actual
     volumes:
       - ./ragflow-logs:/ragflow/logs
       # - ./nginx/ragflow.conf:/etc/nginx/conf.d/ragflow.conf
@@ -48,6 +51,8 @@ services:
       - ../api:/ragflow/api 
       # Map your local 'rag' folder to the container's 'rag' folder
       - ../rag:/ragflow/rag
+      # Map your local 'rag' folder to the container's 'rag' folder
+      - ../web:/ragflow/web
     env_file: .env
     networks:
       - ragflow
