@@ -48,6 +48,8 @@ services:
       - ${SVR_MCP_PORT}:9382 # entry for MCP (host_port:docker_port). The docker_port must match the value you set for `mcp-port` above.
       - ${GO_HTTP_PORT}:9384
       - ${GO_ADMIN_PORT}:9383
+      - "5678:5678" # Must be present for local frontend
+      - "5173:5173"  # Standard Vite port for frontend
     environment:
       # Shared secret used to authenticate towards sandbox-executor-manager.
       # Must match SANDBOX_EXECUTOR_MANAGER_API_TOKEN on that service.
@@ -59,6 +61,9 @@ services:
       # - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./service_conf.yaml.template:/ragflow/conf/service_conf.yaml.template
       - ./entrypoint.sh:/ragflow/entrypoint.sh
+      # Volumes for code modifications
+      - ../api:/ragflow/api 
+      - ../rag:/ragflow/rag
     env_file: .env
     networks:
       - ragflow

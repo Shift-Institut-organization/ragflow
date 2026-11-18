@@ -421,7 +421,8 @@ const ProfilePage: FC = () => {
                 <Button type="reset" variant="secondary" onClick={handleCancel}>
                   {t('cancel')}
                 </Button>
-                <Button type="submit" disabled={submitLoading}>
+                {/** for some reason the submit does not work so I added onClick here */}
+                <Button type="submit" disabled={submitLoading} onClick={() => handleSave(form.getValues() as any)}>
                   {submitLoading && <Loader2Icon className="animate-spin" />}
                   {t('save', { keyPrefix: 'common' })}
                 </Button>

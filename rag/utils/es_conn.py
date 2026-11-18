@@ -247,7 +247,7 @@ class ESConnection(ESConnectionBase):
                 minimum_should_match = (m.extra_options or {}).get("minimum_should_match", 0.0)
                 if isinstance(minimum_should_match, float):
                     minimum_should_match = format_minimum_should_match_percent(minimum_should_match)
-                bool_query.must.append(Q("query_string", fields=m.fields, type="best_fields", query=m.matching_text, minimum_should_match=minimum_should_match, boost=1))
+                bool_query.should.append(Q("query_string", fields=m.fields, type="best_fields", query=m.matching_text, minimum_should_match=minimum_should_match, boost=1)) # use should to avoid hard filtering if no tokens match
                 bool_query.boost = 1.0 - vector_similarity_weight
 
             elif isinstance(m, MatchDenseExpr):
